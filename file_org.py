@@ -16,7 +16,7 @@ def organize(file_path,folder_path):
 	shutil.move(file_path,folder_path)
 
 print("Enter the path with using double quotes \"\"")
-path = input()
+path = input().strip()
 
 for filename in os.listdir( path ):
 	file_path = os.path.join(os.path.sep,path,filename)
