@@ -1,8 +1,15 @@
-import shutil,os
+"""
+Script that organizes files in a folder
+# for PDF file, PDF folder will be created
+# for Python files, PYTHON folder will be created and so on.
+# in case of Log files such as csv, excel and .log files, files will be organized based on YEAR --> MONTH --> WEEKDAY	
+"""
 
-# function that looks for path of folder
-# if folder does not exist, create the folder
-# and moves the file to the folder
+
+from datetime import datetime
+import datetime
+import calendar
+import os,shutil
 
 """
 
@@ -10,11 +17,18 @@ import shutil,os
 
 """
 
-
+"""
+# moves a file to proper folder
+"""
 def move_file(file_path, folder_path):
 	shutil.move(file_path,folder_path)
+	
+"""
+# function that looks for path of folder
+# if folder does not exist, create the folder
+"""
 
-def organize(file_path,folder_path):
+def organize(folder_path):
 	if not os.path.exists(folder_path):
 		os.mkdir(folder_path)
 	
@@ -51,16 +65,16 @@ for filename in os.listdir( path ):
 		organize(folder_path_documents)
 		move_file(file_path,folder_path_documents)
 #LOGS
-  elif filename.lower().endswith((".csv",".xls",".xlsx",".log")):
-    main_folder = os.path.join(os.path.sep,path,"LOGS")
-	  organize(main_folder)
-	  year,month,day = [int(x) for x in filename[:10].split('-')]
-	  year_folder = os.path.join(os.path.sep,main_folder,str(year))
-	  organize(year_folder)
-	  month_folder = os.path.join(os.path.sep,year_folder,calendar.month_name[month])
-	  organize(month_folder)
-	  check = datetime.date(year,month,day)
-	  weekday = calendar.day_name[check.weekday()]
-	  weekname_folder = os.path.join(os.path.sep,month_folder,weekday)
-	  organize(weekname_folder)
-	  move_file(file_path,weekname_folder)
+	elif filename.lower().endswith((".csv",".xls",".xlsx",".log")):
+		main_folder = os.path.join(os.path.sep,path,"LOGS")
+		organize(main_folder)
+		year,month,day = [int(x) for x in filename[:10].split('-')]
+		year_folder = os.path.join(os.path.sep,main_folder,str(year))
+		organize(year_folder)
+		month_folder = os.path.join(os.path.sep,year_folder,calendar.month_name[month])
+		organize(month_folder)
+		check = datetime.date(year,month,day)
+		weekday = calendar.day_name[check.weekday()]
+		weekname_folder = os.path.join(os.path.sep,month_folder,weekday)
+		organize(weekname_folder)
+		move_file(file_path,weekname_folder)
